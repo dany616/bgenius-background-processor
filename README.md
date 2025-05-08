@@ -1,4 +1,4 @@
-# Background Removal & Generation AI Project (BGeniUS)
+# Background Removal & Generation AI Project (BGenius)
 
 <p align="center">
   <img src="public/logo.png" alt="BGeniUS Logo" width="150"/>
