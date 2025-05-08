@@ -4,6 +4,8 @@
   <img src="public/logo.png" alt="BGeniUS Logo" width="150"/>
 </p>
 
+## [Server here!](https://github.com/dany616/Ai_Image_Optimizer.git)
+
 ## Project Overview
 
 BGeniUS is a web application that utilizes TensorFlow.js, BRIA API, and Remove.bg API to remove image backgrounds and generate new backgrounds. The service provides the following three main features:
