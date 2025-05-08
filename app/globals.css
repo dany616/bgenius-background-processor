@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+html.dark,
+[data-theme='dark'] {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 15, 23, 42;
+  --background-end-rgb: 30, 41, 59;
+  color-scheme: dark;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* 투명 배경을 위한 체커보드 패턴 */
+.bg-grid {
+  background-image: 
+    linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+    linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+    linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+.dark .bg-grid,
+[data-theme='dark'] .bg-grid {
+  background-image: 
+    linear-gradient(45deg, #1f2937 25%, transparent 25%),
+    linear-gradient(-45deg, #1f2937 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #1f2937 75%),
+    linear-gradient(-45deg, transparent 75%, #1f2937 75%);
+}
+
+/* 다크 모드 유틸리티 클래스 */
+html.dark .dark\:bg-gray-700,
+html[data-theme='dark'] .dark\:bg-gray-700 {
+  background-color: #374151 !important;
+}
+
+html.dark .dark\:bg-gray-800,
+html[data-theme='dark'] .dark\:bg-gray-800 {
+  background-color: #1f2937 !important;
+}
+
+html.dark .dark\:bg-gray-900,
+html[data-theme='dark'] .dark\:bg-gray-900 {
+  background-color: #111827 !important;
+}
+
+html.dark .dark\:text-white,
+html[data-theme='dark'] .dark\:text-white {
+  color: #ffffff !important;
+}
+
+html.dark .dark\:text-gray-300,
+html[data-theme='dark'] .dark\:text-gray-300 {
+  color: #d1d5db !important;
+}
+
+html.dark .dark\:border-gray-600,
+html[data-theme='dark'] .dark\:border-gray-600 {
+  border-color: #4b5563 !important;
+}
+
+/* 다크모드 클래스 */
+.dark .dark-card,
+[data-theme='dark'] .dark-card {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+.dark .dark-text,
+[data-theme='dark'] .dark-text {
+  color: #f1f5f9 !important;
+}
+
+.dark .dark-bg,
+[data-theme='dark'] .dark-bg {
+  background-color: #0f172a !important;
+}
+
+/* 다크모드용 토글 스위치 스타일 */
+.theme-toggle-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.dark .theme-toggle-switch {
+  background-color: #1f2937;
+}
+
+.theme-toggle-track {
+  position: relative;
+  width: 3.5rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background-color: #d1d5db;
+  transition: all 0.3s ease;
+}
+
+.dark .theme-toggle-track {
+  background-color: #3b82f6;
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  background-color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.dark .theme-toggle-thumb {
+  transform: translateX(1.75rem);
+}
+
+/* 페이드 아웃 애니메이션 */
+.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
