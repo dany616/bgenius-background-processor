@@ -1,17 +1,17 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
 
 # testing
-/coverage
+coverage/
+.nyc_output
+*.lcov
 
 # next.js
 /.next/
@@ -25,13 +25,20 @@
 *.pem
 
 # debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 # env files (민감한 정보 포함)
-.env*
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 !.env.example
 
 # vercel
@@ -65,3 +72,22 @@ __pycache__/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# Husky
+.husky/_
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary folders
+tmp/
+temp/
+
+# OS
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes

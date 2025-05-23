@@ -1,35 +1,90 @@
 {
-  "name": "bgenius",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@bgenius/background-processor",
+  "version": "1.0.0",
+  "description": "AI-powered background removal and generation library with CLI tools",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "bgenius": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "ai",
+    "image-processing",
+    "background-removal",
+    "tensorflow",
+    "cli",
+    "library"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dany616/Bgenius_cilent.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dany616/Bgenius_cilent/issues"
+  },
+  "homepage": "https://github.com/dany616/Bgenius_cilent#readme",
+  "author": "dany616",
+  "license": "MIT",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "rollup -c -w",
+    "build": "rollup -c && npm run build:types",
+    "build:types": "tsc --emitDeclarationOnly",
+    "start": "node dist/cli.js",
+    "lint": "eslint . --ext .ts,.tsx --fix",
+    "lint:check": "eslint . --ext .ts,.tsx",
+    "prettier": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "prettier:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "type-check": "tsc --noEmit",
+    "validate": "npm run lint:check && npm run prettier:check && npm run type-check && npm run test",
+    "prepare": "husky install",
+    "prepublishOnly": "npm run validate && npm run build"
   },
   "dependencies": {
     "@tensorflow-models/body-pix": "^2.2.0",
-    "@tensorflow-models/coco-ssd": "^2.2.3",
     "@tensorflow/tfjs": "^4.15.0",
-    "@tensorflow/tfjs-backend-cpu": "^4.22.0",
-    "@tensorflow/tfjs-backend-webgl": "^4.22.0",
-    "@tensorflow/tfjs-converter": "^4.15.0",
-    "@tensorflow/tfjs-core": "^4.15.0",
+    "@tensorflow/tfjs-node": "^4.15.0",
     "axios": "^1.6.7",
-    "next": "14.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-dropzone": "^14.3.8",
-    "react-icons": "^5.0.1"
+    "commander": "^11.1.0",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "inquirer": "^9.2.12"
   },
   "devDependencies": {
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "@types/inquirer": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vitest/coverage-v8": "^1.2.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.5",
+    "rollup": "^4.9.6",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{js,jsx,json,md}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
