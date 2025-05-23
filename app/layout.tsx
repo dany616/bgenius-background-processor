@@ -28,13 +28,13 @@ export default function RootLayout({
   useEffect(() => {
     // 컴포넌트가 마운트되었을 때 상태 업데이트
     setMounted(true);
-    
+
     // 로컬 스토리지에서 테마 설정 불러오기
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.setAttribute('data-theme', savedTheme);
-      
+
       // HTML 태그에 클래스 추가
       if (savedTheme === 'dark') {
         document.documentElement.classList.add('dark');
@@ -47,7 +47,7 @@ export default function RootLayout({
       setTheme(defaultTheme);
       document.documentElement.setAttribute('data-theme', defaultTheme);
       localStorage.setItem('theme', defaultTheme);
-      
+
       // 라이트 모드이므로 dark 클래스 제거
       document.documentElement.classList.remove('dark');
     }
@@ -62,7 +62,8 @@ export default function RootLayout({
             // WebGL 컨텍스트 정리 시도
             const canvas = document.querySelector('canvas');
             if (canvas) {
-              const gl = canvas.getContext('webgl') || canvas.getContext('webgl2');
+              const gl =
+                canvas.getContext('webgl') || canvas.getContext('webgl2');
               if (gl) {
                 gl.getExtension('WEBGL_lose_context')?.loseContext();
               }
@@ -72,7 +73,7 @@ export default function RootLayout({
           }
         }
       };
-      
+
       document.addEventListener('visibilitychange', onVisibilityChange);
       return () => {
         document.removeEventListener('visibilitychange', onVisibilityChange);
@@ -83,17 +84,17 @@ export default function RootLayout({
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-    
+
     // data-theme 속성 설정
     document.documentElement.setAttribute('data-theme', newTheme);
-    
+
     // dark 클래스 토글
     if (newTheme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-    
+
     // 로컬 스토리지에 저장
     localStorage.setItem('theme', newTheme);
   };
@@ -101,10 +102,10 @@ export default function RootLayout({
   // 마운트되기 전에는 기본 테마로 표시 (hydration 불일치 방지)
   if (!mounted) {
     return (
-      <html lang="ko">
+      <html lang='ko'>
         <body className={inter.className}>
-          <div className="w-full h-screen flex items-center justify-center">
-            <div className="animate-pulse">로딩 중...</div>
+          <div className='w-full h-screen flex items-center justify-center'>
+            <div className='animate-pulse'>로딩 중...</div>
           </div>
         </body>
       </html>
@@ -112,7 +113,11 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="ko" data-theme={theme} className={theme === 'dark' ? 'dark' : ''}>
+    <html
+      lang='ko'
+      data-theme={theme}
+      className={theme === 'dark' ? 'dark' : ''}
+    >
       <body className={inter.className}>
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
           <TensorFlowInitializer />

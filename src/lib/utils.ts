@@ -1,5 +1,9 @@
 import type { ImageFile, ValidationResult, ProcessingOptions } from '../types';
-import { MAX_FILE_SIZE, SUPPORTED_MIME_TYPES, ERROR_MESSAGES } from '../constants';
+import {
+  MAX_FILE_SIZE,
+  SUPPORTED_MIME_TYPES,
+  ERROR_MESSAGES,
+} from '../constants';
 
 export function validateImage(file: ImageFile): ValidationResult {
   const warnings: string[] = [];
@@ -39,47 +43,46 @@ export function validateImage(file: ImageFile): ValidationResult {
   };
 }
 
-export function createImageProcessor(options: ProcessingOptions = {}) {
+export function createImageProcessor(_options: ProcessingOptions = {}) {
   return {
-    processImage: async (buffer: Buffer): Promise<Buffer> => {
-      // Basic image processing logic would go here
-      // For now, return the original buffer
-      return buffer;
-    },
-    
-    resizeImage: async (
-      buffer: Buffer, 
-      width?: number, 
-      height?: number
-    ): Promise<Buffer> => {
-      // Image resizing logic would go here
-      return buffer;
-    },
-    
-    convertFormat: async (
-      buffer: Buffer, 
-      format: string
-    ): Promise<Buffer> => {
-      // Format conversion logic would go here
-      return buffer;
-    },
+    process: () => Promise.resolve(Buffer.alloc(0)),
   };
+}
+
+export function resizeImage(
+  buffer: Buffer,
+  _width?: number,
+  _height?: number
+): Promise<Buffer> {
+  // Placeholder implementation
+  return Promise.resolve(buffer);
+}
+
+export function convertFormat(
+  buffer: Buffer,
+  _format: string
+): Promise<Buffer> {
+  // Placeholder implementation
+  return Promise.resolve(buffer);
 }
 
 export function bufferToBase64(buffer: Buffer, mimeType: string): string {
   return `data:${mimeType};base64,${buffer.toString('base64')}`;
 }
 
-export function base64ToBuffer(base64String: string): { buffer: Buffer; mimeType: string } {
+export function base64ToBuffer(base64String: string): {
+  buffer: Buffer;
+  mimeType: string;
+} {
   const matches = base64String.match(/^data:([^;]+);base64,(.+)$/);
   if (!matches || !matches[1] || !matches[2]) {
     throw new Error('Invalid base64 string format');
   }
-  
+
   const mimeType = matches[1];
   const base64Data = matches[2];
   const buffer = Buffer.from(base64Data, 'base64');
-  
+
   return { buffer, mimeType };
 }
 
@@ -89,4 +92,4 @@ export function generateId(): string {
 
 export function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms));
-} 
+}

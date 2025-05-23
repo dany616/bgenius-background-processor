@@ -1,7 +1,15 @@
 import axios from 'axios';
 
-import type { GenerationOptions, ProcessingResult, BackgroundGenerationConfig } from '../types';
-import { API_ENDPOINTS, ERROR_MESSAGES, DEFAULT_GENERATION_OPTIONS } from '../constants';
+import type {
+  GenerationOptions,
+  ProcessingResult,
+  BackgroundGenerationConfig,
+} from '../types';
+import {
+  API_ENDPOINTS,
+  ERROR_MESSAGES,
+  DEFAULT_GENERATION_OPTIONS,
+} from '../constants';
 import { validateImage, bufferToBase64 } from './utils';
 
 export class BackgroundGenerator {
@@ -63,7 +71,10 @@ export class BackgroundGenerator {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : ERROR_MESSAGES.PROCESSING_FAILED,
+        error:
+          error instanceof Error
+            ? error.message
+            : ERROR_MESSAGES.PROCESSING_FAILED,
       };
     }
   }
@@ -73,7 +84,7 @@ export class BackgroundGenerator {
     options: GenerationOptions
   ): Promise<Buffer> {
     const apiKey = options.apiKey || this.config.briaApiKey;
-    
+
     if (!apiKey) {
       throw new Error(ERROR_MESSAGES.API_KEY_MISSING);
     }
@@ -83,7 +94,8 @@ export class BackgroundGenerator {
     const payload = {
       model: 'bria-2.3',
       prompt: options.prompt,
-      negative_prompt: options.negativePrompt || 'blurry, low quality, distorted',
+      negative_prompt:
+        options.negativePrompt || 'blurry, low quality, distorted',
       num_inference_steps: options.steps || 30,
       guidance_scale: 7.5,
       seed: options.seed,
@@ -91,20 +103,27 @@ export class BackgroundGenerator {
       strength: 0.8,
     };
 
-    const response = await axios.post(this.config.endpoint || API_ENDPOINTS.BRIA, payload, {
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      timeout: this.config.timeout,
-    });
+    const response = await axios.post(
+      this.config.endpoint || API_ENDPOINTS.BRIA,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: this.config.timeout || 30000,
+      }
+    );
 
     if (response.data && response.data.image) {
       // Convert base64 response to buffer
-      const base64Data = response.data.image.replace(/^data:image\/[a-z]+;base64,/, '');
+      const base64Data = response.data.image.replace(
+        /^data:image\/[a-z]+;base64,/,
+        ''
+      );
       return Buffer.from(base64Data, 'base64');
     }
 
     throw new Error('No image data received from BRIA API');
   }
-} 
+}

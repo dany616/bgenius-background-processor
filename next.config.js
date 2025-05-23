@@ -3,10 +3,10 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: [
-      'localhost', 
-      '127.0.0.1', 
-      'd1ei2xrl63k822.cloudfront.net', 
-      'briadownload.s3.ap-northeast-2.amazonaws.com'
+      'localhost',
+      '127.0.0.1',
+      'd1ei2xrl63k822.cloudfront.net',
+      'briadownload.s3.ap-northeast-2.amazonaws.com',
     ],
     remotePatterns: [
       {
@@ -34,4 +34,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig; 
+module.exports = nextConfig;

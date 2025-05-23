@@ -56,27 +56,31 @@ bgenius interactive
 ### Library Usage
 
 ```typescript
-import { BackgroundRemover, BackgroundGenerator, BackgroundProcessor } from '@bgenius/background-processor';
+import {
+  BackgroundRemover,
+  BackgroundGenerator,
+  BackgroundProcessor,
+} from '@bgenius/background-processor';
 
 // Remove background
 const remover = new BackgroundRemover();
 const result = await remover.removeBackground(imageBuffer, {
   model: 'tensorflow', // or 'removebg'
-  precision: 'high'
+  precision: 'high',
 });
 
 // Generate background
 const generator = new BackgroundGenerator();
 const generated = await generator.generateBackground(imageBuffer, {
   prompt: 'modern office space with plants',
-  style: 'realistic'
+  style: 'realistic',
 });
 
 // Full processing pipeline
 const processor = new BackgroundProcessor();
 const processed = await processor.processImage(imageBuffer, {
   prompt: 'sunset landscape',
-  removalModel: 'tensorflow'
+  removalModel: 'tensorflow',
 });
 ```
 
@@ -96,9 +100,12 @@ interface RemovalOptions {
 }
 
 class BackgroundRemover {
-  constructor(config?: BackgroundRemovalConfig)
-  async removeBackground(buffer: Buffer, options?: RemovalOptions): Promise<ProcessingResult>
-  async dispose(): Promise<void>
+  constructor(config?: BackgroundRemovalConfig);
+  async removeBackground(
+    buffer: Buffer,
+    options?: RemovalOptions
+  ): Promise<ProcessingResult>;
+  async dispose(): Promise<void>;
 }
 ```
 
@@ -117,8 +124,11 @@ interface GenerationOptions {
 }
 
 class BackgroundGenerator {
-  constructor(config?: BackgroundGenerationConfig)
-  async generateBackground(buffer: Buffer, options: GenerationOptions): Promise<ProcessingResult>
+  constructor(config?: BackgroundGenerationConfig);
+  async generateBackground(
+    buffer: Buffer,
+    options: GenerationOptions
+  ): Promise<ProcessingResult>;
 }
 ```
 
@@ -126,14 +136,17 @@ class BackgroundGenerator {
 
 ```typescript
 // Validate image files
-function validateImage(file: ImageFile): ValidationResult
+function validateImage(file: ImageFile): ValidationResult;
 
 // Create image processor with custom options
-function createImageProcessor(options?: ProcessingOptions): ImageProcessor
+function createImageProcessor(options?: ProcessingOptions): ImageProcessor;
 
 // Convert between formats
-function bufferToBase64(buffer: Buffer, mimeType: string): string
-function base64ToBuffer(base64String: string): { buffer: Buffer; mimeType: string }
+function bufferToBase64(buffer: Buffer, mimeType: string): string;
+function base64ToBuffer(base64String: string): {
+  buffer: Buffer;
+  mimeType: string;
+};
 ```
 
 ## 🔑 Configuration
@@ -153,11 +166,13 @@ AWS_SECRET_ACCESS_KEY=your_aws_secret_key
 ### API Key Setup
 
 #### Remove.bg
+
 1. Sign up at [Remove.bg](https://www.remove.bg/)
 2. Go to API section and create a new API key
 3. Set the `REMOVE_BG_API_KEY` environment variable
 
 #### BRIA AI
+
 1. Sign up at [BRIA Platform](https://platform.bria.ai/)
 2. Navigate to API keys section
 3. Generate a new API token
@@ -246,14 +261,14 @@ npm run test:coverage
 
 ### Benchmarks
 
-| Operation | Model | Average Time | Memory Usage |
-|-----------|-------|-------------|--------------|
-| Background Removal | TensorFlow.js | ~2.3s | ~150MB |
-| Background Removal | Remove.bg API | ~1.1s | ~50MB |
-| Background Generation | BRIA API | ~8.5s | ~80MB |
-| Full Process | Combined | ~11s | ~200MB |
+| Operation             | Model         | Average Time | Memory Usage |
+| --------------------- | ------------- | ------------ | ------------ |
+| Background Removal    | TensorFlow.js | ~2.3s        | ~150MB       |
+| Background Removal    | Remove.bg API | ~1.1s        | ~50MB        |
+| Background Generation | BRIA API      | ~8.5s        | ~80MB        |
+| Full Process          | Combined      | ~11s         | ~200MB       |
 
-*Benchmarks performed on images ~2MB, 1920x1080 resolution*
+_Benchmarks performed on images ~2MB, 1920x1080 resolution_
 
 ## 🔒 Security
 

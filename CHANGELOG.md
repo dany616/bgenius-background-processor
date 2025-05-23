@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2024-01-XX
 
 ### Added
+
 - Initial release of @bgenius/background-processor
 - Background removal using TensorFlow.js and Remove.bg API
 - Background generation using BRIA AI
@@ -20,8 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Full API documentation and usage examples
 
 ### Features
+
 - **BackgroundRemover**: AI-powered background removal
-- **BackgroundGenerator**: AI-powered background generation  
+- **BackgroundGenerator**: AI-powered background generation
 - **BackgroundProcessor**: Combined removal and generation pipeline
 - **CLI Tools**: Command-line interface for batch processing
 - **Type Safety**: Full TypeScript support
@@ -29,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Documentation**: Complete API reference
 
 ### Developer Experience
+
 - Modern development tooling (ESLint, Prettier, Husky)
 - Automated testing and CI/CD
 - Strict TypeScript configuration
@@ -36,11 +39,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive documentation
 
 ### Supported Formats
+
 - Input: PNG, JPG, JPEG, WebP
 - Output: PNG, JPG, WebP
 - Maximum file size: 10MB
 
 ### APIs Supported
+
 - TensorFlow.js (client-side processing)
 - Remove.bg API (background removal)
-- BRIA AI API (background generation) 
+- BRIA AI API (background generation)

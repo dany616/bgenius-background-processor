@@ -2,20 +2,23 @@ import * as tf from '@tensorflow/tfjs-node';
 import * as bodyPix from '@tensorflow-models/body-pix';
 import axios from 'axios';
 
-import type { RemovalOptions, ProcessingResult, BackgroundRemovalConfig } from '../types';
-import { API_ENDPOINTS, ERROR_MESSAGES, DEFAULT_REMOVAL_OPTIONS } from '../constants';
-import { validateImage, bufferToBase64 } from './utils';
+import type {
+  RemovalOptions,
+  ProcessingResult,
+  BackgroundRemovalConfig,
+} from '../types';
+import {
+  API_ENDPOINTS,
+  ERROR_MESSAGES,
+  DEFAULT_REMOVAL_OPTIONS,
+} from '../constants';
+import { validateImage } from './utils';
 
 export class BackgroundRemover {
-  private config: BackgroundRemovalConfig;
   private bodyPixModel: bodyPix.BodyPix | null = null;
 
-  constructor(config: BackgroundRemovalConfig = {}) {
-    this.config = {
-      cacheEnabled: true,
-      cacheTTL: 3600000, // 1 hour
-      ...config,
-    };
+  constructor(_config: BackgroundRemovalConfig = {}) {
+    // Configuration would be used for future features
   }
 
   async removeBackground(
@@ -43,15 +46,25 @@ export class BackgroundRemover {
       let processedBuffer: Buffer;
 
       if (mergedOptions.model === 'removebg') {
+        if (!mergedOptions.apiKey) {
+          return {
+            success: false,
+            error: ERROR_MESSAGES.API_KEY_MISSING,
+          };
+        }
+
         processedBuffer = await this.removeBackgroundWithRemoveBg(
           imageBuffer,
-          mergedOptions
+          mergedOptions.apiKey
         );
       } else {
-        processedBuffer = await this.removeBackgroundWithTensorFlow(
-          imageBuffer,
-          mergedOptions
-        );
+        // Ensure model is loaded
+        if (!this.bodyPixModel) {
+          await this.loadBodyPixModel();
+        }
+
+        processedBuffer =
+          await this.removeBackgroundWithTensorFlow(imageBuffer);
       }
 
       return {
@@ -67,21 +80,18 @@ export class BackgroundRemover {
     } catch (error) {
       return {
         success: false,
-        error: error instanceof Error ? error.message : ERROR_MESSAGES.PROCESSING_FAILED,
+        error:
+          error instanceof Error
+            ? error.message
+            : ERROR_MESSAGES.PROCESSING_FAILED,
       };
     }
   }
 
   private async removeBackgroundWithRemoveBg(
     imageBuffer: Buffer,
-    options: RemovalOptions
+    apiKey: string
   ): Promise<Buffer> {
-    const apiKey = options.apiKey || this.config.apiKey;
-    
-    if (!apiKey) {
-      throw new Error(ERROR_MESSAGES.API_KEY_MISSING);
-    }
-
     const formData = new FormData();
     formData.append('image_file', new Blob([imageBuffer]));
     formData.append('size', 'auto');
@@ -98,40 +108,57 @@ export class BackgroundRemover {
   }
 
   private async removeBackgroundWithTensorFlow(
-    imageBuffer: Buffer,
-    options: RemovalOptions
+    imageBuffer: Buffer
   ): Promise<Buffer> {
-    if (!this.bodyPixModel) {
-      await this.loadBodyPixModel();
-    }
+    try {
+      if (!this.bodyPixModel) {
+        throw new Error('TensorFlow model not loaded');
+      }
 
-    if (!this.bodyPixModel) {
-      throw new Error('Failed to load TensorFlow model');
-    }
+      // Load the image tensor
+      const imageTensor = tf.node.decodeImage(imageBuffer, 3) as tf.Tensor3D;
 
-    // Convert buffer to tensor
-    const imageTensor = tf.node.decodeImage(imageBuffer, 3);
-    
-    // Get person segmentation
-    const segmentation = await this.bodyPixModel.segmentPerson(imageTensor);
-    
-    // Create mask
-    const mask = tf.cast(segmentation.allPoses.length > 0 ? 
-      tf.expandDims(segmentation.data, -1) : 
-      tf.zeros([imageTensor.shape[0], imageTensor.shape[1], 1]), 'float32');
-    
-    // Apply mask to image
-    const maskedImage = tf.mul(imageTensor, mask);
-    
-    // Convert back to buffer
-    const processedBuffer = await tf.node.encodeJpeg(maskedImage as tf.Tensor3D);
-    
-    // Cleanup tensors
-    imageTensor.dispose();
-    mask.dispose();
-    maskedImage.dispose();
-    
-    return processedBuffer;
+      // Perform segmentation
+      const segmentation = await this.bodyPixModel.segmentPerson(
+        imageTensor as any
+      );
+
+      // Create mask and apply to image
+      const maskData = segmentation.data;
+      const { height, width } = segmentation;
+
+      // Convert mask to tensor
+      const mask = tf.tensor(Array.from(maskData), [
+        height,
+        width,
+        1,
+      ]) as tf.Tensor3D;
+      const resizedMask = tf.image.resizeBilinear(mask, [
+        imageTensor.shape[0],
+        imageTensor.shape[1],
+      ]);
+
+      // Apply mask to remove background
+      const maskedImage = tf.mul(imageTensor, resizedMask.expandDims(-1));
+
+      // Convert to buffer
+      const processedImageData = await tf.browser.toPixels(
+        maskedImage as tf.Tensor3D
+      );
+      const processedBuffer = Buffer.from(processedImageData);
+
+      // Cleanup
+      imageTensor.dispose();
+      mask.dispose();
+      resizedMask.dispose();
+      maskedImage.dispose();
+
+      return processedBuffer;
+    } catch (error) {
+      throw new Error(
+        `TensorFlow processing failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
+    }
   }
 
   private async loadBodyPixModel(): Promise<void> {
@@ -153,4 +180,4 @@ export class BackgroundRemover {
       this.bodyPixModel = null;
     }
   }
-} 
+}

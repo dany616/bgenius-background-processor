@@ -1,6 +1,10 @@
 import { BackgroundRemover } from './background-remover';
 import { BackgroundGenerator } from './background-generator';
-import type { ProcessingResult, BackgroundRemovalConfig, BackgroundGenerationConfig } from '../types';
+import type {
+  ProcessingResult,
+  BackgroundRemovalConfig,
+  BackgroundGenerationConfig,
+} from '../types';
 
 interface ProcessingOptions {
   prompt: string;
@@ -46,7 +50,9 @@ export class BackgroundProcessor {
 
       // Step 2: Generate new background
       const generationResult = await this.generator.generateBackground(
-        Buffer.isBuffer(removalResult.data) ? removalResult.data : Buffer.from(removalResult.data),
+        Buffer.isBuffer(removalResult.data)
+          ? removalResult.data
+          : Buffer.from(removalResult.data),
         {
           prompt: options.prompt,
           negativePrompt: options.negativePrompt,
@@ -85,4 +91,4 @@ export class BackgroundProcessor {
   async dispose(): Promise<void> {
     await this.remover.dispose();
   }
-} 
+}

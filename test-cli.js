@@ -5,12 +5,14 @@ import chalk from 'chalk';
 import fs from 'fs/promises';
 
 const pkg = {
-  version: '1.0.0'
+  version: '1.0.0',
 };
 
 program
   .name('bgenius-test')
-  .description('🎨 AI-powered background removal and generation CLI tool (Test Version)')
+  .description(
+    '🎨 AI-powered background removal and generation CLI tool (Test Version)'
+  )
   .version(pkg.version);
 
 program
@@ -19,7 +21,9 @@ program
   .action(() => {
     console.log(chalk.green('✅ CLI tool is working!'));
     console.log(chalk.blue('🎨 BGeniUS Background Processor v' + pkg.version));
-    console.log(chalk.yellow('📦 This is a test version to verify CLI functionality'));
+    console.log(
+      chalk.yellow('📦 This is a test version to verify CLI functionality')
+    );
   });
 
 program
@@ -29,14 +33,22 @@ program
     console.log(chalk.blue.bold('\n🎨 BGeniUS Background Processor\n'));
     console.log(chalk.green('Available Commands:'));
     console.log(chalk.white('  remove      Remove background from an image'));
-    console.log(chalk.white('  generate    Generate new background for an image'));
-    console.log(chalk.white('  interactive Interactive mode for background processing'));
+    console.log(
+      chalk.white('  generate    Generate new background for an image')
+    );
+    console.log(
+      chalk.white('  interactive Interactive mode for background processing')
+    );
     console.log(chalk.white('  test        Test basic CLI functionality'));
     console.log(chalk.white('  help-demo   Show this help demo'));
-    
+
     console.log(chalk.green('\nExample Usage:'));
     console.log(chalk.gray('  bgenius remove input.jpg -o output.png'));
-    console.log(chalk.gray('  bgenius generate input.png -p "sunset beach scene" -o result.png'));
+    console.log(
+      chalk.gray(
+        '  bgenius generate input.png -p "sunset beach scene" -o result.png'
+      )
+    );
     console.log(chalk.gray('  bgenius interactive'));
   });
 
@@ -44,7 +56,7 @@ program
   .command('validate-file')
   .description('Validate if a file exists and is readable')
   .argument('<file>', 'File path to validate')
-  .action(async (file) => {
+  .action(async file => {
     try {
       await fs.access(file);
       const stats = await fs.stat(file);
@@ -53,7 +65,9 @@ program
       console.log(chalk.blue(`📅 Modified: ${stats.mtime.toLocaleString()}`));
     } catch (error) {
       console.log(chalk.red(`❌ File not found: ${file}`));
-      console.log(chalk.yellow('Make sure the file path is correct and the file exists.'));
+      console.log(
+        chalk.yellow('Make sure the file path is correct and the file exists.')
+      );
     }
   });
 
@@ -71,4 +85,4 @@ if (!process.argv.slice(2).length) {
   program.outputHelp();
 }
 
-program.parse(); 
+program.parse();

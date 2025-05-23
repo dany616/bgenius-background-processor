@@ -1,4 +1,8 @@
-import type { ProcessingOptions, RemovalOptions, GenerationOptions } from './types';
+import type {
+  ProcessingOptions,
+  RemovalOptions,
+  GenerationOptions,
+} from './types';
 
 export const SUPPORTED_FORMATS = ['png', 'jpg', 'jpeg', 'webp'] as const;
 
@@ -42,4 +46,4 @@ export const ERROR_MESSAGES = {
   NETWORK_ERROR: 'Network error occurred during processing',
   PROCESSING_FAILED: 'Image processing failed',
   INVALID_PROMPT: 'Prompt is required for background generation',
-} as const; 
+} as const;

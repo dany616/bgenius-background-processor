@@ -1,5 +1,6 @@
 // Test setup file for Vitest
 import { beforeAll, afterAll, beforeEach, afterEach } from 'vitest';
+import { vi } from 'vitest';
 
 // Global test setup
 beforeAll(() => {
@@ -20,59 +21,90 @@ afterEach(() => {
   // Cleanup after each test
 });
 
-// Mock global fetch for API tests
-global.fetch = vi.fn();
+// Mock global objects for testing
+Object.defineProperty(globalThis, 'fetch', {
+  writable: true,
+  value: vi.fn(),
+});
 
-// Mock FormData for browser-specific tests
-global.FormData = class FormData {
-  private data: Map<string, any> = new Map();
-  
-  append(key: string, value: any): void {
-    this.data.set(key, value);
-  }
-  
-  get(key: string): any {
-    return this.data.get(key);
-  }
-  
-  has(key: string): boolean {
-    return this.data.has(key);
-  }
-  
-  delete(key: string): void {
-    this.data.delete(key);
-  }
-  
-  entries(): IterableIterator<[string, any]> {
-    return this.data.entries();
-  }
-};
+// Simple FormData mock
+Object.defineProperty(globalThis, 'FormData', {
+  writable: true,
+  value: class FormData {
+    private data = new Map<string, any>();
 
-// Mock Blob for file upload tests
-global.Blob = class Blob {
-  constructor(private chunks: any[], private options?: BlobPropertyBag) {}
-  
-  get size(): number {
-    return this.chunks.reduce((acc, chunk) => acc + chunk.length, 0);
-  }
-  
-  get type(): string {
-    return this.options?.type || '';
-  }
-  
-  arrayBuffer(): Promise<ArrayBuffer> {
-    return Promise.resolve(new ArrayBuffer(this.size));
-  }
-  
-  stream(): ReadableStream {
-    throw new Error('Not implemented');
-  }
-  
-  text(): Promise<string> {
-    return Promise.resolve(this.chunks.join(''));
-  }
-  
-  slice(): Blob {
-    return new Blob([]);
-  }
-}; 
+    append(key: string, value: any) {
+      this.data.set(key, value);
+    }
+
+    get(key: string) {
+      return this.data.get(key);
+    }
+
+    has(key: string) {
+      return this.data.has(key);
+    }
+
+    delete(key: string) {
+      return this.data.delete(key);
+    }
+
+    entries() {
+      return this.data.entries();
+    }
+
+    keys() {
+      return this.data.keys();
+    }
+
+    values() {
+      return this.data.values();
+    }
+
+    forEach(callback: (value: any, key: string) => void) {
+      this.data.forEach(callback);
+    }
+
+    getAll(key: string) {
+      return this.data.has(key) ? [this.data.get(key)] : [];
+    }
+
+    set(key: string, value: any) {
+      this.data.set(key, value);
+    }
+  },
+});
+
+// Simple Blob mock
+Object.defineProperty(globalThis, 'Blob', {
+  writable: true,
+  value: class Blob {
+    constructor(
+      public blobParts?: any[],
+      public options?: any
+    ) {}
+
+    size = 0;
+    type = '';
+
+    arrayBuffer(): Promise<ArrayBuffer> {
+      return Promise.resolve(new ArrayBuffer(0));
+    }
+
+    stream(): ReadableStream {
+      return new ReadableStream();
+    }
+
+    text(): Promise<string> {
+      return Promise.resolve('');
+    }
+
+    slice(_start?: number, _end?: number, _contentType?: string): Blob {
+      return new Blob();
+    }
+
+    bytes(): Promise<Uint8Array> {
+      return Promise.resolve(new Uint8Array(0));
+    }
+  },
+});

@@ -1,4 +1,4 @@
-const typescript = require('rollup-plugin-typescript2');
+import typescript from 'rollup-plugin-typescript2';
 
 const config = [
   // Library build
@@ -19,7 +19,6 @@ const config = [
     ],
     plugins: [
       typescript({
-        typescript: require('typescript'),
         clean: true,
         tsconfig: './tsconfig.json',
       }),
@@ -39,4 +38,4 @@ const config = [
   },
 ];
 
-module.exports = config; 
+export default config; 

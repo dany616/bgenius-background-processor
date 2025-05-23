@@ -19,13 +19,13 @@ export default function TensorFlowInitializer() {
       console.log('TensorFlow.js가 이미 로드되어 있습니다.');
       return;
     }
-    
+
     const loadTensorFlowJS = async () => {
       try {
         // 필요한 TensorFlow.js 패키지를 동적으로 로드
         const tf = await import('@tensorflow/tfjs');
         await tf.ready();
-        
+
         // TensorFlow 버전 확인
         console.log(`TensorFlow.js 로드됨 - 버전: ${tf.version.tfjs}`);
 
@@ -37,25 +37,24 @@ export default function TensorFlowInitializer() {
           const webgl = await import('@tensorflow/tfjs-backend-webgl');
           await tf.setBackend('webgl');
           console.log('WebGL 백엔드로 설정됨');
-          
+
           // WebGL 상태 확인
           const backend = tf.getBackend();
           console.log(`현재 백엔드: ${backend}`);
-          
+
           if (backend === 'webgl') {
-            const webglInfo = (tf as any).webgl.getWebGLContext().getParameter(
-              (tf as any).webgl.getWebGLContext().VERSION
-            );
+            const webglInfo = (tf as any).webgl
+              .getWebGLContext()
+              .getParameter((tf as any).webgl.getWebGLContext().VERSION);
             console.log(`WebGL 정보: ${webglInfo}`);
           }
         } catch (webglError) {
           console.warn('WebGL 백엔드 로드 실패, CPU 백엔드 사용:', webglError);
           await tf.setBackend('cpu');
         }
-        
+
         // TensorFlow 초기화 완��� 표시
         tfLoaded = true;
-        
       } catch (error) {
         console.error('TensorFlow.js 로드 중 오류:', error);
       }

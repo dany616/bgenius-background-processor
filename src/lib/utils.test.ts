@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest';
 
-import { validateImage, bufferToBase64, base64ToBuffer, generateId } from './utils';
+import {
+  validateImage,
+  bufferToBase64,
+  base64ToBuffer,
+  generateId,
+} from './utils';
 import type { ImageFile } from '../types';
 
 describe('Utils', () => {
@@ -94,7 +99,9 @@ describe('Utils', () => {
     it('should throw error for invalid base64 format', () => {
       const invalidBase64 = 'invalid-base64-string';
 
-      expect(() => base64ToBuffer(invalidBase64)).toThrow('Invalid base64 string format');
+      expect(() => base64ToBuffer(invalidBase64)).toThrow(
+        'Invalid base64 string format'
+      );
     });
   });
 
@@ -116,4 +123,4 @@ describe('Utils', () => {
       expect(id.length).toBeLessThan(30);
     });
   });
-}); 
+});
