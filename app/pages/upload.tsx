@@ -370,7 +370,9 @@ export default function UploadPage() {
             {showApiKeyManager && (
               <button
                 onClick={() => setShowApiKeyManager(false)}
-                className="flex items-center text-blue-500 hover:text-blue-700"
+                className={`flex items-center transition-colors ${
+                  theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-500 hover:text-blue-700'
+                }`}
               >
                 <FiArrowLeft className="mr-1" /> 이미지 업로드로 돌아가기
               </button>
@@ -378,10 +380,14 @@ export default function UploadPage() {
           </div>
           <button
             onClick={() => setShowApiKeyManager(!showApiKeyManager)}
-            className={`px-4 py-2 rounded-lg flex items-center ${
+            className={`px-4 py-2 rounded-lg flex items-center transition-colors ${
               showApiKeyManager
-                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                : 'bg-white text-blue-600 shadow hover:bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700'
+                ? theme === 'dark' 
+                  ? 'bg-blue-900 text-blue-300 border border-blue-700'
+                  : 'bg-blue-100 text-blue-700 border border-blue-200'
+                : theme === 'dark'
+                  ? 'bg-gray-800 text-blue-400 shadow-lg border border-gray-700 hover:bg-gray-700'
+                  : 'bg-white text-blue-600 shadow hover:bg-blue-50 border border-gray-200'
             }`}
           >
             <FiKey className="mr-2" />
@@ -393,7 +399,11 @@ export default function UploadPage() {
         {showApiKeyManager ? (
           <ApiKeyManager />
         ) : (
-          <div className={`bg-white ${theme === 'dark' ? 'dark-card' : ''} shadow rounded-lg p-6`}>
+          <div className={`${
+            theme === 'dark' 
+              ? 'bg-gray-800 border border-gray-700 text-white' 
+              : 'bg-white border border-gray-200'
+          } shadow-lg rounded-lg p-6`}>
             {/* 서버 상태 표시 */}
             {isServerAvailable === false && (
               <div className="mb-4 p-3 bg-yellow-50 text-yellow-700 rounded-lg flex items-center">
@@ -417,21 +427,33 @@ export default function UploadPage() {
             {/* 토큰 사용 경고창 */}
             {showTokenWarning && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white rounded-lg p-6 max-w-sm mx-auto">
-                  <h3 className="text-lg font-medium text-gray-900 mb-3">토큰 사용 경고</h3>
-                  <p className="text-gray-600 mb-4">
+                <div className={`${
+                  theme === 'dark' 
+                    ? 'bg-gray-800 border border-gray-700' 
+                    : 'bg-white'
+                } rounded-lg p-6 max-w-sm mx-auto`}>
+                  <h3 className={`text-lg font-medium mb-3 ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>토큰 사용 경고</h3>
+                  <p className={`mb-4 ${
+                    theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
                     서버 API로 배경 제거 기능은 계정에서 1개의 토큰을 사용합니다. 계속하시겠습니까?
                   </p>
                   <div className="flex justify-end space-x-3">
                     <button
                       onClick={cancelTokenUsage}
-                      className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                      className={`px-4 py-2 rounded-md transition-colors ${
+                        theme === 'dark'
+                          ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 border border-gray-600'
+                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      }`}
                     >
                       취소
                     </button>
                     <button
                       onClick={confirmTokenUsage}
-                      className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                      className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
                     >
                       계속하기
                     </button>
@@ -549,7 +571,9 @@ export default function UploadPage() {
                     className="object-contain"
                   />
                 </div>
-                <p className="mt-4 text-lg font-medium text-gray-900">처리 방식 선택</p>
+                <p className={`mt-4 text-lg font-medium ${
+                  theme === 'dark' ? 'text-white' : 'text-gray-900'
+                }`}>처리 방식 선택</p>
                 <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
                   <button
                     onClick={() => handleProcessImage('bg-removal')}
@@ -614,7 +638,11 @@ export default function UploadPage() {
                       setPreview(null);
                       setSelectedFile(null);
                     }}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      theme === 'dark'
+                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 border border-gray-600'
+                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    }`}
                   >
                     취소
                   </button>
@@ -669,7 +697,9 @@ export default function UploadPage() {
                     <div className="w-full bg-gray-200 rounded-full h-2.5">
                       <div className="bg-green-600 h-2.5 rounded-full animate-pulse" style={{ width: '100%' }}></div>
                     </div>
-                    <p className="text-center mt-2 text-gray-600">서버에서 처리 중...</p>
+                    <p className={`text-center mt-2 ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                    }`}>서버에서 처리 중...</p>
                   </div>
                 )}
 
@@ -693,7 +723,11 @@ export default function UploadPage() {
 
             {processedImage && (
               <div className="mt-6">
-                <div className="border bg-white rounded-lg overflow-hidden">
+                <div className={`border rounded-lg overflow-hidden ${
+                  theme === 'dark' 
+                    ? 'bg-gray-800 border-gray-700' 
+                    : 'bg-white border-gray-200'
+                }`}>
                   <div className="relative bg-grid">
                     <Image
                       src={processedImage}
@@ -705,7 +739,9 @@ export default function UploadPage() {
                     />
                   </div>
                   <div className="p-4 border-t">
-                    <h3 className="text-lg font-medium text-gray-800">
+                    <h3 className={`text-lg font-medium ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-800'
+                    }`}>
                       {getProcessingModeName(processingMode as ProcessingMode)} - 결과
                     </h3>
                     <div className="mt-2 flex space-x-2">
@@ -718,7 +754,11 @@ export default function UploadPage() {
                       </a>
                       <button
                         onClick={resetProcess}
-                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-300 transition-colors"
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                          theme === 'dark'
+                            ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 border border-gray-600'
+                            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        }`}
                       >
                         다시 처리
                       </button>
