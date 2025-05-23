@@ -11,6 +11,7 @@ AI-powered background removal and generation library
 AI 기반 배경 제거 및 생성 라이브러리
 
 ## ✨ Features
+
 ## ✨ 주요 기능
 
 - 🎯 **Background Removal**: Remove backgrounds using TensorFlow.js or Remove.bg API
@@ -31,9 +32,11 @@ AI 기반 배경 제거 및 생성 라이브러리
 - 📖 **문서화**: 완전한 API 참조 및 사용 예제
 
 ## 🔧 Installation
+
 ## 🔧 설치
 
 ### As a Library
+
 ### 라이브러리로 설치
 
 ```bash
@@ -41,6 +44,7 @@ npm install @bgenius/background-processor
 ```
 
 ### As a CLI Tool
+
 ### CLI 도구로 설치
 
 ```bash
@@ -48,9 +52,11 @@ npm install -g @bgenius/background-processor
 ```
 
 ## 🚀 Quick Start
+
 ## 🚀 빠른 시작
 
 ### CLI Usage
+
 ### CLI 사용법
 
 ```bash
@@ -72,6 +78,7 @@ bgenius interactive
 ```
 
 ### Library Usage
+
 ### 라이브러리 사용법
 
 ```typescript
@@ -107,9 +114,11 @@ const processed = await processor.processImage(imageBuffer, {
 ```
 
 ## 📚 API Reference
+
 ## 📚 API 참조
 
 ### BackgroundRemover
+
 ### 배경 제거 클래스
 
 Remove backgrounds from images using AI models.
@@ -136,6 +145,7 @@ class BackgroundRemover {
 ```
 
 ### BackgroundGenerator
+
 ### 배경 생성 클래스
 
 Generate new backgrounds using AI.
@@ -162,6 +172,7 @@ class BackgroundGenerator {
 ```
 
 ### Utility Functions
+
 ### 유틸리티 함수
 
 ```typescript
@@ -183,9 +194,11 @@ function base64ToBuffer(base64String: string): {
 ```
 
 ## 🔑 Configuration
+
 ## 🔑 설정
 
 ### Environment Variables
+
 ### 환경 변수
 
 ```bash
@@ -201,32 +214,35 @@ AWS_SECRET_ACCESS_KEY=your_aws_secret_key
 ```
 
 ### API Key Setup
+
 ### API 키 설정
 
 #### Remove.bg
 
 1. Sign up at [Remove.bg](https://www.remove.bg/)
 1. [Remove.bg](https://www.remove.bg/)에 가입하세요
-2. Go to API section and create a new API key
-2. API 섹션으로 이동하여 새 API 키를 생성하세요
-3. Set the `REMOVE_BG_API_KEY` environment variable
-3. `REMOVE_BG_API_KEY` 환경 변수를 설정하세요
+1. Go to API section and create a new API key
+1. API 섹션으로 이동하여 새 API 키를 생성하세요
+1. Set the `REMOVE_BG_API_KEY` environment variable
+1. `REMOVE_BG_API_KEY` 환경 변수를 설정하세요
 
 #### BRIA AI
 
 1. Sign up at [BRIA Platform](https://platform.bria.ai/)
 1. [BRIA Platform](https://platform.bria.ai/)에 가입하세요
-2. Navigate to API keys section
-2. API 키 섹션으로 이동하세요
-3. Generate a new API token
-3. 새 API 토큰을 생성하세요
-4. Set the `BRIA_API_TOKEN` environment variable
-4. `BRIA_API_TOKEN` 환경 변수를 설정하세요
+1. Navigate to API keys section
+1. API 키 섹션으로 이동하세요
+1. Generate a new API token
+1. 새 API 토큰을 생성하세요
+1. Set the `BRIA_API_TOKEN` environment variable
+1. `BRIA_API_TOKEN` 환경 변수를 설정하세요
 
 ## 🛠️ Development
+
 ## 🛠️ 개발
 
 ### Prerequisites
+
 ### 필수 조건
 
 - Node.js 16.x or higher
@@ -235,6 +251,7 @@ AWS_SECRET_ACCESS_KEY=your_aws_secret_key
 - npm 또는 yarn 패키지 매니저
 
 ### Setup
+
 ### 설정
 
 ```bash
@@ -244,6 +261,7 @@ npm install
 ```
 
 ### Available Scripts
+
 ### 사용 가능한 스크립트
 
 ```bash
