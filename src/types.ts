@@ -7,44 +7,44 @@ export interface ProcessingOptions {
 
 export interface RemovalOptions extends ProcessingOptions {
   model?: 'tensorflow' | 'removebg';
-  apiKey?: string;
+  apiKey?: string | undefined;
   precision?: 'low' | 'medium' | 'high';
 }
 
 export interface GenerationOptions extends ProcessingOptions {
   prompt: string;
-  negativePrompt?: string;
-  style?: string;
-  seed?: number;
-  steps?: number;
-  apiKey?: string;
+  negativePrompt?: string | undefined;
+  style?: string | undefined;
+  seed?: number | undefined;
+  steps?: number | undefined;
+  apiKey?: string | undefined;
 }
 
 export interface ProcessingResult {
   success: boolean;
-  data?: Buffer | string;
-  error?: string;
+  data?: Buffer | string | undefined;
+  error?: string | undefined;
   metadata?: {
     originalSize: { width: number; height: number };
     processedSize: { width: number; height: number };
     processingTime: number;
     model: string;
-  };
+  } | undefined;
 }
 
 export type ImageFormat = 'png' | 'jpg' | 'jpeg' | 'webp';
 
 export interface BackgroundRemovalConfig {
-  apiKey?: string;
-  modelPath?: string;
+  apiKey?: string | undefined;
+  modelPath?: string | undefined;
   cacheEnabled?: boolean;
   cacheTTL?: number;
 }
 
 export interface BackgroundGenerationConfig {
-  briaApiKey?: string;
-  endpoint?: string;
-  timeout?: number;
+  briaApiKey?: string | undefined;
+  endpoint?: string | undefined;
+  timeout?: number | undefined;
   retryAttempts?: number;
 }
 
@@ -57,6 +57,6 @@ export interface ImageFile {
 
 export interface ValidationResult {
   isValid: boolean;
-  error?: string;
+  error?: string | undefined;
   warnings?: string[] | undefined;
 } 
