@@ -1,4 +1,4 @@
-# @bgenius/background-processor
+# @dany616/background-processor
 
 <p align="center">
   <img src="https://img.shields.io/github/license/dany616/bgenius-background-processor" alt="license" />
@@ -39,7 +39,7 @@ AI 기반 배경 제거 및 생성 라이브러리
 ### 라이브러리로 설치
 
 ```bash
-npm install @bgenius/background-processor
+npm install @dany616/background-processor
 ```
 
 ### As a CLI Tool
@@ -47,7 +47,7 @@ npm install @bgenius/background-processor
 ### CLI 도구로 설치
 
 ```bash
-npm install -g @bgenius/background-processor
+npm install -g @dany616/background-processor
 ```
 
 ## 🚀 Quick Start
@@ -85,7 +85,7 @@ import {
   BackgroundRemover,
   BackgroundGenerator,
   BackgroundProcessor,
-} from '@bgenius/background-processor';
+} from '@dany616/background-processor';
 
 // Remove background
 // 배경 제거

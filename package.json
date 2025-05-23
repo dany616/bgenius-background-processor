@@ -1,5 +1,5 @@
 {
-  "name": "@bgenius/background-processor",
+  "name": "@dany616/background-processor",
   "version": "1.0.0",
   "description": "AI-powered background removal and generation library with CLI tools",
   "type": "module",
