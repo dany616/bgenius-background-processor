@@ -6,13 +6,21 @@ import ora from 'ora';
 import inquirer from 'inquirer';
 import fs from 'fs/promises';
 import path from 'path';
+import { readFile } from 'fs/promises';
+import { fileURLToPath } from 'url';
 
-import { BackgroundRemover } from './lib/background-remover';
-import { BackgroundGenerator } from './lib/background-generator';
-import { BackgroundProcessor } from './lib/background-processor';
-import type { RemovalOptions, GenerationOptions } from './types';
+import { BackgroundRemover } from './lib/background-remover.js';
+import { BackgroundGenerator } from './lib/background-generator.js';
+import { BackgroundProcessor } from './lib/background-processor.js';
+import type { RemovalOptions, GenerationOptions } from './types.js';
 
-const pkg = require('../package.json');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Read package.json
+const packageJsonPath = path.join(__dirname, '../package.json');
+const packageJsonContent = await readFile(packageJsonPath, 'utf-8');
+const pkg = JSON.parse(packageJsonContent);
 
 program
   .name('bgenius')
@@ -22,7 +30,7 @@ program
 program
   .command('remove')
   .description('Remove background from an image')
-  .argument '<input>', 'Input image path')
+  .argument('<input>', 'Input image path')
   .option('-o, --output <path>', 'Output path', 'output.png')
   .option('-m, --model <model>', 'Model to use (tensorflow|removebg)', 'tensorflow')
   .option('-k, --api-key <key>', 'API key for external services')
@@ -34,11 +42,12 @@ program
       const imageBuffer = await fs.readFile(input);
       const remover = new BackgroundRemover();
       
-      const result = await remover.removeBackground(imageBuffer, {
-        model: options.model,
-        apiKey: options.apiKey,
-        precision: options.precision,
-      });
+      const removalOptions: RemovalOptions = {};
+      if (options.model) removalOptions.model = options.model;
+      if (options.apiKey) removalOptions.apiKey = options.apiKey;
+      if (options.precision) removalOptions.precision = options.precision;
+      
+      const result = await remover.removeBackground(imageBuffer, removalOptions);
 
       if (!result.success) {
         spinner.fail(chalk.red(`Failed: ${result.error ?? 'Unknown error'}`));
@@ -95,12 +104,12 @@ program
       const imageBuffer = await fs.readFile(input);
       const generator = new BackgroundGenerator();
       
-      const result = await generator.generateBackground(imageBuffer, {
-        prompt,
-        negativePrompt: options.negative,
-        style: options.style,
-        apiKey: options.apiKey,
-      });
+      const generationOptions: GenerationOptions = { prompt };
+      if (options.negative) generationOptions.negativePrompt = options.negative;
+      if (options.style) generationOptions.style = options.style;
+      if (options.apiKey) generationOptions.apiKey = options.apiKey;
+      
+      const result = await generator.generateBackground(imageBuffer, generationOptions);
 
       if (!result.success) {
         spinner.fail(chalk.red(`Failed: ${result.error ?? 'Unknown error'}`));
@@ -236,14 +245,15 @@ program
     // Execute the chosen action
     const command = program.commands.find(cmd => cmd.name() === answers.action);
     if (command) {
-      await command.parseAsync([
+      const args = [
         process.argv[0],
         process.argv[1],
         answers.action,
         answers.input,
         '-o', answers.output,
         ...(answers.prompt ? ['-p', answers.prompt] : []),
-      ]);
+      ];
+      await command.parseAsync(args);
     }
   });
 
