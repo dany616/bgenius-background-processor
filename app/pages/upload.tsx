@@ -749,7 +749,7 @@ export default function UploadPage() {
               <FiMoon className="text-gray-600 w-5 h-5" />
             )}
             
-            <span className="text-sm text-gray-800 dark:text-white mr-2">
+            <span className={`text-sm mr-2 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
               나는 {theme === 'dark' ? '밤' : '낮'}이에요
             </span>
             

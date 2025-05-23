@@ -106,10 +106,12 @@ html[data-theme='dark'] .dark\:border-gray-600 {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
   background-color: white;
+  color: #374151;
 }
 
 .dark .theme-toggle-switch {
   background-color: #1f2937;
+  color: #f9fafb;
 }
 
 .theme-toggle-track {
@@ -155,4 +157,13 @@ html[data-theme='dark'] .dark\:border-gray-600 {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* 토글 버튼 내부 텍스트 색상을 명시적으로 설정 */
+.theme-toggle-switch span {
+  color: #374151 !important;
+}
+
+.dark .theme-toggle-switch span {
+  color: #f9fafb !important;
 }

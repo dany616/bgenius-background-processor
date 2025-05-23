@@ -42,16 +42,14 @@ export default function RootLayout({
         document.documentElement.classList.remove('dark');
       }
     } else {
-      // 시스템 테마 감지
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const defaultTheme = prefersDark ? 'dark' : 'light';
+      // 기본 테마를 라이트 모드로 설정 (시스템 테마 감지 제거)
+      const defaultTheme = 'light';
       setTheme(defaultTheme);
       document.documentElement.setAttribute('data-theme', defaultTheme);
       localStorage.setItem('theme', defaultTheme);
       
-      if (defaultTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      }
+      // 라이트 모드이므로 dark 클래스 제거
+      document.documentElement.classList.remove('dark');
     }
 
     // 브라우저 환경에서만 실행되도록 함
