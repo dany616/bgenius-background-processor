@@ -2,7 +2,6 @@
 
 <p align="center">
   <img src="https://img.shields.io/github/license/dany616/bgenius-background-processor" alt="license" />
-  <img src="https://img.shields.io/github/actions/workflow/status/dany616/bgenius-background-processor/ci.yml" alt="CI Status" />
   <img src="https://img.shields.io/github/last-commit/dany616/bgenius-background-processor" alt="Last Commit" />
 </p>
 
